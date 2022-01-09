@@ -1,8 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-int value1 = 10000;
-int value2 = 10000;
-
+long value1 =(long) 10000;
+long value2 =(long)10000;
 object _lock = new object();
 
 void Writer()
