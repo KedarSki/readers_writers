@@ -11,9 +11,9 @@ void Writer()
         lock( _lock )
         {
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: Enters");
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Writing..");
             value1++;
             value2--;
-            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Writing..");
             Thread.Sleep(100);
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: Job Done!.. Leaving");
         }
