@@ -31,7 +31,7 @@ void Reader()
         {
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Enters");
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Reading {value1} and {value2}");
-            Thread.Sleep(200);
+            Thread.Sleep(100);
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Job Done!.. Leaving");
         }
 
