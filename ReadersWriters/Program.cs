@@ -3,26 +3,23 @@
 int value1 = 100;
 int value2 = 100;
 ReaderWriterLockSlim _rw = new ReaderWriterLockSlim();
-object _lock = new object();
 
 void Writer()
 {
     
     while (true)
     {
-        lock (_lock)
-        {
+       
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: TRIES TO ENTER");
             _rw.EnterWriteLock();
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: Enters");
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Writing..");
             value1++;
             value2--;
-            Thread.Sleep(1000);
-            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Job Done! Leaving");
-            Thread.Sleep(200);
+            Thread.Sleep(100);
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Job Done! Left");
             _rw.ExitWriteLock();
-        }
+        Thread.Sleep(500);
 
     }
 }
@@ -38,9 +35,8 @@ void Reader()
         _rw.EnterReadLock();
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Enters");
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Reading {value1} and {value2}");
-            Thread.Sleep(100);
-            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Job Done!.. Leaving");
             Thread.Sleep(200);
+        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Reader: Job Done!.. Left");
         _rw.ExitReadLock();
 
     }
