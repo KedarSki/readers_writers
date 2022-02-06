@@ -2,7 +2,7 @@
 
 int numberOfPhilosophers = 5;
 Task[] philosophers;
-SemaphoreSlim[] chopsticks = new SemaphoreSlim[numberOfPhilosophers];
+SemaphoreSlim[] chopsticks = new SemaphoreSlim[4];
 
 philosophers = new Task[numberOfPhilosophers];
 chopsticks = new SemaphoreSlim[numberOfPhilosophers];
@@ -20,7 +20,7 @@ for (int i = 0; i < numberOfPhilosophers; i++)
 {
     return Task.Run(() => { 
     
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 10; i++)
         {
             Console.WriteLine($"Philosopher {philosopherIndex}: Is hungry and would like to eat");
 
@@ -36,12 +36,11 @@ for (int i = 0; i < numberOfPhilosophers; i++)
 
             Console.WriteLine($"Philosopher {philosopherIndex} is Eating");
             Thread.Sleep(200);
-
+            Console.WriteLine($"Philosopher {philosopherIndex} Put chopsticks down.");
             chopsticks[GetChopstickIndex(philosopherIndex)].Release();
             chopsticks[GetChopstickIndex(philosopherIndex + 1)].Release();
-            Console.WriteLine($"Philosopher {philosopherIndex} Put chopsticks down.");
             Console.WriteLine($"Philosopher {philosopherIndex} Thinking...");
-            Thread.Sleep(100);
+            Thread.Sleep (200);
 
         }
     
