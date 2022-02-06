@@ -1,31 +1,38 @@
-﻿
-SemaphoreSlim leftFork = new SemaphoreSlim(1);
-SemaphoreSlim rightFork= new SemaphoreSlim(1);
+﻿/*
+SemaphoreSlim fork1 = new SemaphoreSlim(1);
+SemaphoreSlim fork2 = new SemaphoreSlim(1);
+SemaphoreSlim fork3 = new SemaphoreSlim(1);
+SemaphoreSlim fork4 = new SemaphoreSlim(1);
+SemaphoreSlim fork5 = new SemaphoreSlim(1);
 
 
-void DinninPhilosophers()
+
+
+void DinninPhilosophers(object leftChopstick, object rightChopstick, int philosopherNumber)
 {
     while (true)
     {
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Philosopher is thinking..");
-        Thread.Sleep(200);
-        leftFork.Wait();
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Philosopher taking left fork");
+        lock (leftChopstick)                // Grab utencil on the left 
+        {
+            lock (rightChopstick)           // Grab utencil on the right 
+            {
+                // Eat here 
+                Console.WriteLine("Philosopher {0} eats.", philosopherNumber);
+            }
+        }
 
-        rightFork.Wait();
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Philosopher taking right fork");
+        const int numPhilosophers = 5;
 
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Philosopher is eating");
-        Thread.Sleep(150);
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Philosopher finished eating");
-        leftFork.Release();
-        rightFork.Release();
-        Thread.Sleep(100);
+        // 5 utencils on the left and right of each philosopher. Use them to acquire locks. 
+        var chopsticks = new Dictionary<int, object>(numPhilosophers);
+
+        for (int i = 0; i < numPhilosophers; ++i)
+        {
+            chopsticks.Add(i, new object());
+        }
+
+
     }
-
-
-}
-
 
 Thread phil1 = new Thread(() =>
 {
@@ -57,3 +64,4 @@ phil2.Start();
 phil3.Start();
 phil4.Start();
 phil5.Start();
+*/
