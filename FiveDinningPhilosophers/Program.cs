@@ -2,7 +2,7 @@
 
 int numberOfPhilosophers = 5;
 Task[] philosophers;
-SemaphoreSlim[] chopsticks = new SemaphoreSlim[4];
+SemaphoreSlim[] chopsticks = new SemaphoreSlim[numberOfPhilosophers];
 
 philosophers = new Task[numberOfPhilosophers];
 chopsticks = new SemaphoreSlim[numberOfPhilosophers];
