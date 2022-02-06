@@ -35,13 +35,13 @@ for (int i = 0; i < numberOfPhilosophers; i++)
             }
 
             Console.WriteLine($"Philosopher {philosopherIndex} is Eating");
-            Thread.Sleep(20);
+            Thread.Sleep(200);
 
             chopsticks[GetChopstickIndex(philosopherIndex)].Release();
             chopsticks[GetChopstickIndex(philosopherIndex + 1)].Release();
             Console.WriteLine($"Philosopher {philosopherIndex} Put chopsticks down.");
             Console.WriteLine($"Philosopher {philosopherIndex} Thinking...");
-            Thread.Sleep(3);
+            Thread.Sleep(100);
 
         }
     
