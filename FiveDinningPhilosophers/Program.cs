@@ -1,67 +1,58 @@
-﻿/*
-SemaphoreSlim fork1 = new SemaphoreSlim(1);
-SemaphoreSlim fork2 = new SemaphoreSlim(1);
-SemaphoreSlim fork3 = new SemaphoreSlim(1);
-SemaphoreSlim fork4 = new SemaphoreSlim(1);
-SemaphoreSlim fork5 = new SemaphoreSlim(1);
+﻿
 
+int numberOfPhilosophers = 5;
+Task[] philosophers;
+SemaphoreSlim[] chopsticks = new SemaphoreSlim[numberOfPhilosophers];
 
+philosophers = new Task[numberOfPhilosophers];
+chopsticks = new SemaphoreSlim[numberOfPhilosophers];
 
-
-void DinninPhilosophers(object leftChopstick, object rightChopstick, int philosopherNumber)
+for (int i = 0; i < numberOfPhilosophers; i++)
 {
-    while (true)
-    {
-        lock (leftChopstick)                // Grab utencil on the left 
+
+    philosophers[i] = DiningProcess(i);
+    chopsticks[i] = new SemaphoreSlim(1);
+}
+
+
+
+ Task DiningProcess (int philosopherIndex)
+{
+    return Task.Run(() => { 
+    
+        for(int i = 0; i < 100; i++)
         {
-            lock (rightChopstick)           // Grab utencil on the right 
+            Console.WriteLine($"Philosopher {philosopherIndex}: Is hungry and would like to eat");
+
+            var chopstick1 = GetChopstickIndex(philosopherIndex);
+            var chopstick2 = GetChopstickIndex(philosopherIndex + 1);
+
+            var chopstickList = new List<int> { chopstick1, chopstick2 }.OrderBy(index => index).ToList();
+
+            foreach(var chopstickIndex in chopstickList)
             {
-                // Eat here 
-                Console.WriteLine("Philosopher {0} eats.", philosopherNumber);
+                chopsticks[chopstickIndex].Wait();
             }
+
+            Console.WriteLine($"Philosopher {philosopherIndex} is Eating");
+            Thread.Sleep(20);
+
+            chopsticks[GetChopstickIndex(philosopherIndex)].Release();
+            chopsticks[GetChopstickIndex(philosopherIndex + 1)].Release();
+            Console.WriteLine($"Philosopher {philosopherIndex} Put chopsticks down.");
+            Console.WriteLine($"Philosopher {philosopherIndex} Thinking...");
+            Thread.Sleep(3);
+
         }
+    
+    });
+}
 
-        const int numPhilosophers = 5;
-
-        // 5 utencils on the left and right of each philosopher. Use them to acquire locks. 
-        var chopsticks = new Dictionary<int, object>(numPhilosophers);
-
-        for (int i = 0; i < numPhilosophers; ++i)
-        {
-            chopsticks.Add(i, new object());
-        }
-
-
-    }
-
-Thread phil1 = new Thread(() =>
+ int  GetChopstickIndex(int index)
 {
-    DinninPhilosophers();
-});
+    return index % numberOfPhilosophers;
+}
 
-Thread phil2 = new Thread(() =>
-{
-    DinninPhilosophers();
-});
-
-Thread phil3 = new Thread(() =>
-{
-    DinninPhilosophers();
-});
-
-Thread phil4 = new Thread(() =>
-{
-    DinninPhilosophers();
-});
-
-Thread phil5 = new Thread(() =>
-{
-    DinninPhilosophers();
-});
-
-phil1.Start();
-phil2.Start();
-phil3.Start();
-phil4.Start();
-phil5.Start();
-*/
+Task.WaitAll(philosophers);
+Console.WriteLine("Bawl is empty... All philosophers has finished dinner");
+Console.ReadLine();

@@ -2,7 +2,7 @@
 int value1 = 100;
 int value2 = 100;
 ReaderWriterLockSlim _rw = new ReaderWriterLockSlim();
-
+object _lock = new object();
 
 void Writer()
 {
@@ -11,16 +11,16 @@ void Writer()
     {
 
         Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: TRIES TO ENTER");
-        _rw.EnterWriteLock();
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: Enters");
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Writing..");
-        value1++;
-        value2--;
-        Thread.Sleep(100);
-        Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Job Done! Left");
-        _rw.ExitWriteLock();
-        Thread.Sleep(200);
 
+            _rw.EnterWriteLock();
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer: Enters");
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Writing..");
+            value1++;
+            value2--;
+            Thread.Sleep(100);
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} Writer:  Job Done! Left");
+            _rw.ExitWriteLock();
+            Thread.Sleep(100);
     }
 }
 
